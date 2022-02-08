@@ -34,7 +34,8 @@ const displayOrientationMap = {
   vertical: { text: 'Vertical (Beta)' },
   horizontal: { text: 'Horizontal' },
 };
-export type DisplayOrientation = 'vertical' | 'horizontal';
+export type DisplayOrientationMapKey = keyof typeof displayOrientationMap &
+  string;
 export const MAP_DISPLAY_ORIENTATION = displayOrientationMap;
 
 // display content map

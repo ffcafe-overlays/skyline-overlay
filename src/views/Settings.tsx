@@ -122,6 +122,16 @@ function Settings() {
             ),
           },
           {
+            title: t('Display Orientation'),
+            render: () => (
+              <SSelect
+                value={settings.dispOrientation}
+                onChange={(val) => settings.updateDispOrientation(val)}
+                map={MAP_DISPLAY_ORIENTATION}
+              />
+            ),
+          },
+          {
             title: t('Display Content'),
             render: () => (
               <>
@@ -139,16 +149,6 @@ function Settings() {
                   map={MAP_DISPLAY_CONTENT}
                 />
               </>
-            ),
-          },
-          {
-            title: t('Display Orientation'),
-            render: () => (
-              <SSelect
-                value={settings.dispOrientation}
-                onChange={(val) => settings.updateDispOrientation(val)}
-                map={MAP_DISPLAY_ORIENTATION}
-              />
             ),
           },
           {
