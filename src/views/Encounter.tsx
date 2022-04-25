@@ -1,20 +1,34 @@
 import './Encounter.scss';
 import { useCallback, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { observer } from 'mobx-react-lite';
-import { version } from '../assets/meta';
+import overlay from '../utils/overlay';
 import {
   IChevronUpCircle,
   IChevronDownCircle,
   ISettings,
+  ILockClosed,
+  ILockOpen,
 } from '../assets/icons';
-import { useStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { fmtDuration, fmtNumber, fmtZoneName } from '../utils/formatters';
+import {
+  toggleSettings,
+  toggleShowCombatants,
+  toggleLockCombatants,
+} from '../store/slices/settings';
 
 function Encounter() {
-  const { api, settings } = useStore();
-  const { active, encounter, overlay } = api;
-  const { showCombatants, shortNumber, toggleShowCombatants } = settings;
+  const dispatch = useAppDispatch();
+  const active = useAppSelector((state) => state.api.data.active);
+  const encounter = useAppSelector((state) => state.api.data.encounter);
+  const showCombatants = useAppSelector(
+    (state) => state.settings.showCombatants
+  );
+  const lockCombatants = useAppSelector(
+    (state) => state.settings.lockCombatants
+  );
+  const shortNumber = useAppSelector((state) => state.settings.shortNumber);
+  const bigNumberMode = useAppSelector((state) => state.settings.bigNumberMode);
 
   // encounter data
   const duration = fmtDuration(encounter.duration);
@@ -25,14 +39,17 @@ function Encounter() {
    */
   const handleEndEncounter = useCallback(async () => {
     await overlay.endEncounter();
-  }, [overlay]);
+  }, []);
 
-  /**
-   * hide or show combatants
-   */
   const handleToggleShowCombatants = useCallback(() => {
-    toggleShowCombatants();
-  }, [toggleShowCombatants]);
+    dispatch(toggleShowCombatants());
+  }, [dispatch]);
+  const handleToggleLockCombatants = useCallback(() => {
+    dispatch(toggleLockCombatants());
+  }, [dispatch]);
+  const handleToggleSettings = useCallback(() => {
+    dispatch(toggleSettings());
+  }, [dispatch]);
 
   // overflow zonename related
   const [fullZoneName, setFullZoneName] = useState(false);
@@ -85,18 +102,22 @@ function Encounter() {
           <span ref={zoneInnerRef}>{zoneName}</span>
         </div>
         <div className='encounter-content-numbers' onClick={handleSwitchDHPS}>
-          <span className='g-number'>{fmtNumber(totalDPS, shortNumber)}</span>
+          <span className='g-number'>
+            {fmtNumber(totalDPS, shortNumber, bigNumberMode)}
+          </span>
           <span className='g-counter'>{showDHPS.toUpperCase()}</span>
         </div>
       </div>
       <div className='encounter-btns'>
+        {!showCombatants && (
+          <div className='encounter-btn' onClick={handleToggleLockCombatants}>
+            {lockCombatants ? <ILockClosed /> : <ILockOpen />}
+          </div>
+        )}
         <div className='encounter-btn' onClick={handleToggleShowCombatants}>
           {showCombatants ? <IChevronUpCircle /> : <IChevronDownCircle />}
         </div>
-        <div
-          className='encounter-btn'
-          onClick={() => settings.toggleSettings()}
-        >
+        <div className='encounter-btn' onClick={handleToggleSettings}>
           <ISettings />
         </div>
       </div>
@@ -104,4 +125,4 @@ function Encounter() {
   );
 }
 
-export default observer(Encounter);
+export default Encounter;
