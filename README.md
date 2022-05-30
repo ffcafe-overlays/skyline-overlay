@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/assets/logo.svg" alt="Skyline Logo" width="128" /><br />
+  <img src="https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/public/favicon.svg" alt="Skyline Logo" width="128" /><br />
   Skyline Overlay
   <br />
 </h1>
@@ -12,13 +12,15 @@
 [![](https://img.shields.io/github/license/dsrkafuu/skyline-overlay)](https://github.com/dsrkafuu/skyline-overlay/blob/main/LICENSE)
 [![](https://img.shields.io/lgtm/grade/javascript/github/dsrkafuu/skyline-overlay)](https://lgtm.com/projects/g/dsrkafuu/skyline-overlay/context:javascript)
 
-Features: Basic overlay, extended details, customizable display/data settings, battle history, and more. The project is based on React 18, and the dedicated [ffxiv-overlay-api](https://github.com/dsrkafuu/ffxiv-overlay-api).
+Features: Basic overlay, extended details, customizable display/data settings, battle history, custom colors, sw cache and more. The project is based on React 18, and the dedicated [ffxiv-overlay-api](https://github.com/dsrkafuu/ffxiv-overlay-api).
 
-<img align="center" src="https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/assets/preview-en-v3.jpg" alt="Skyline Preview" />
+<img align="center" src="https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/assets/preview-en-v37.jpg" alt="Skyline Preview" />
+
+<img align="center" src="https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/assets/preview-zh-v37.jpg" alt="Skyline Preview CN" />
 
 ## Overlay Links
 
-- CloudFlare (Global): `https://skyline.dsrkafuu.net`
+- CloudFlare (Global): `https://skyline.dsrkafuu.net/`
 - Mirror (CN FFCafe): `https://overlays.ffcafe.cn/skyline/`
 - Mirror (CN DieMoe): `https://overlay.diemoe.net/skyline/`
 
@@ -37,6 +39,12 @@ You can use [CSSNANO](https://cssnano.co/playground/) to minify your CSS into si
 ## Browser Support
 
 Chrome (Chromium) >= 90, Firefox >= 90, Safari >= 14
+
+## Cache Rules
+
+The app uses Service Workers to cache all the assets, which makes it ready for offline usage after the first time.
+
+When releasing a new version, you can wait for the pop-up notification to confirm the cache update, or use Ctrl+F5 to force refresh the app.
 
 ## Environment
 
@@ -60,8 +68,8 @@ pnpm run build
 ```bash
 git clone https://github.com/dsrkafuu/skyline-overlay.git
 cd skyline-overlay
-npx pnpm install
-npx pnpm run dev
+pnpm install
+pnpm run dev
 ```
 
 ### Add Translations
@@ -74,10 +82,31 @@ Please use [ISO 639-1:2002](https://en.wikipedia.org/wiki/List_of_ISO_639-1_code
 
 ### Add Custom Themes
 
-1. Create a new `your-theme-filename.scss` file in `@/src/themes`, use `default.scss` and `ikegami.scss` as examples
-2. Import `your-theme-filename.scss` in `@/src/themes/index.ts`
-3. Add a new author in `@/src/themes/authors.ts` exported map
-4. Add a new theme in `@/src/themes/index.js` exported map
+1. Add a new author in `@/src/themes/support/authors.ts`
+2. Create `@/src/themes/<name>.ts` and `@/src/themes/<name>.scss`
+3. Configure your theme in `@/src/themes/<name>.ts`
+4. Write theme styles in `@/src/themes/<name>.scss`
+
+#### Customizable Colors
+
+All themes has pre-defined colors, check out `@/src/themes/default.ts` and `@/src/themes/horiz.scss` for examples.
+
+If you'd like to add colors to your theme that users can customize, add a `theme` key to your colors object in `@/src/themes/<name>.ts`.
+
+```ts
+const myColors: Colors = {
+  common: [0, 0, 0, 0.3],
+  self: [118, 118, 118, 1],
+  ...
+  theme: {
+    fg: [255, 255, 255],
+    bg: [0, 0, 0, 0.3],
+    bga: [85, 85, 85],
+  },
+};
+```
+
+These variables will now be accessible within your `.scss` file as `var(--color-theme-<key>)`, where `<key>` is the color key name.
 
 ### Contributors
 
