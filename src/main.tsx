@@ -10,21 +10,6 @@ import { store } from './store';
 import App from './App';
 import DevPanel from './DevPanel';
 
-// [tree-shakable] dynamic import sentry
-const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
-if (import.meta.env.PROD && sentryDsn) {
-  Promise.all([import('@sentry/react'), import('@sentry/tracing')]).then(
-    ([Sentry, { Integrations }]) => {
-      Sentry.init({
-        dsn: `${sentryDsn}`,
-        integrations: [new Integrations.BrowserTracing()],
-        sampleRate: 1, // report all errors
-        tracesSampleRate: 0.05, // report 5% of traces
-      });
-    }
-  );
-}
-
 let app = <App />;
 // [tree-shakable] development panel
 if (import.meta.env.DEV) {
