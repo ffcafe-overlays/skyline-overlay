@@ -37,11 +37,11 @@ You can use [CSSNANO](https://cssnano.co/playground/) to minify your CSS into si
 
 ## Browsers Support
 
-Supports major browser versions released at 2020 or `ES2020`.
+Supports major browser versions released at `baseline-widely-available`.
 
-- Chrome: >=87
-- Firefox: >=78
-- Safari: >=14
+- Chrome: >=111
+- Firefox: >=114
+- Safari: >=16.4
 
 ## Cache Rules
 
@@ -58,11 +58,13 @@ VITE_GA_ID=""         # google analytics id
 
 ## Local Build
 
+Install [Bun](https://bun.sh/) before running the following commands:
+
 ```bash
 git clone https://github.com/dsrkafuu/skyline-overlay.git
 cd skyline-overlay
-pnpm install
-pnpm run build
+bun install
+bun run build
 ```
 
 ## Online Debug
@@ -78,15 +80,6 @@ pnpm run build
 ![Debug Log Save](https://raw.githubusercontent.com/dsrkafuu/skyline-overlay/main/assets/debug-2.png)
 
 Theses also a `rawdata=1` query to get the raw data from ngld.
-
-## Contribute
-
-```bash
-git clone https://github.com/dsrkafuu/skyline-overlay.git
-cd skyline-overlay
-pnpm install
-pnpm run dev
-```
 
 ### Add Translations
 
@@ -145,13 +138,8 @@ Released under `Apache License 2.0`, for more information read the [LICENSE](htt
 
 ## CHANGELOG
 
-Only latest changes listed here.
+Added Beastmaster (BST) support, including job recognition, melee DPS classification, icon rendering, and theme colors.
 
-- Support last 60s DPS display in main/bottom bars
-- Clean Encounter after closing data mock
-- New font Google Sans Flex added
-- Fonts from Google Fonts (remote) now have all available weights
-- Updated MiSans font version to 4.009
-- Embedded XIV API (ngld) from `ffxiv-overlay-api` into project source
-- Build target updated to `2026/1/1` baseline
-- Dev scripts migrated to ESM format
+## 更新日志
+
+新增驯兽师（BST）支持，包括职业识别、近战 DPS 分类、图标显示和主题颜色。
