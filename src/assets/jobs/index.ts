@@ -32,6 +32,7 @@ export { default as DNC } from './dnc.svg?react';
 export { default as CUL } from './cul.svg?react';
 export { default as CRP } from './crp.svg?react';
 export { default as CNJ } from './cnj.svg?react';
+export { default as BST } from './bst.svg?react';
 export { default as BSM } from './bsm.svg?react';
 export { default as BRD } from './brd.svg?react';
 export { default as BOT } from './bot.svg?react';
